@@ -30,6 +30,7 @@ func (s *SyncedMap) Get(key interface{}) (interface{}, bool) {
 
 func (s *SyncedMap) Iterate(f func(interface{}, interface{})) {
   for key := range s.m {
-    f(key, s.m[key])
+    val, _ := s.Get(key)
+    f(key, val)
   }
 }
