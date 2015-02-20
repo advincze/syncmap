@@ -38,3 +38,15 @@ func setAndGetTest(t *testing.T, syncedMap *SyncedMap, n int) {
 		}
 	}
 }
+
+func iteratorTest(t *testing.T, syncedMap *SyncedMap, n int) {
+  count := 0
+  syncedMap.Iterate(func(key, value interface{}) {
+    if key != nil {
+      count += 1
+    }
+  })
+  if count != n {
+    t.Errorf("count is %d, it should be %d", count, n)
+  }
+}

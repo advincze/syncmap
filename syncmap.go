@@ -27,3 +27,9 @@ func (s *SyncedMap) Get(key interface{}) (interface{}, bool) {
 	val, ok := s.m[key]
 	return val, ok
 }
+
+func (s *SyncedMap) Iterate(f func(interface{}, interface{})) {
+  for key := range s.m {
+    f(key, s.m[key])
+  }
+}
