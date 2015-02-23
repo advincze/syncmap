@@ -18,6 +18,8 @@ func TestFirst(t *testing.T) {
 		wg.Add(1)
 		go func() {
 			setAndGetTest(t, syncedMap, 100)
+      iterateTest(t, syncedMap)
+      removeTest(t, syncedMap)
 			wg.Done()
 		}()
 	}
@@ -37,4 +39,29 @@ func setAndGetTest(t *testing.T, syncedMap *SyncedMap, n int) {
 			t.Errorf("value expected:%v but was %v\n", 1, val)
 		}
 	}
+}
+
+func removeTest(t *testing.T, syncedMap *SyncedMap) {
+  r := rand.Uint32()
+  syncedMap.Set(r,r)
+  val, ok := syncedMap.Get(r)
+  if !ok {
+    t.Errorf("value could not be retrieved\n")
+  }
+  val, ok = syncedMap.Remove(r)
+  if !ok {
+    t.Errorf("value could not be removed\n")
+  }
+}
+
+func iterateTest(t *testing.T, syncedMap *SyncedMap) {
+  count := 0
+  syncedMap.Iterate(func(key, value interface{}) {
+    if key != nil {
+      count += 1
+    }
+  })
+  if count == 0 {
+    t.Errorf("count is %d", count)
+  }
 }
